@@ -1,7 +1,7 @@
 import axios from 'axios';
 import ui from './ui';
 
-const postUrl = 'http://localhost:3000/posts';
+const postUrl = 'https://posts-59834.firebaseio.com/posts';
 
 document.addEventListener('DOMContentLoaded', getPosts);
 ui.postSubmit.addEventListener('click', submitPost);
@@ -10,7 +10,7 @@ ui.posts.addEventListener('click', editPostState);
 document.querySelector('.card-form').addEventListener('click', createPostState);
 
 function getPosts() {
-  axios.get('http://localhost:3000/posts')
+  axios.get(`${postUrl}.json`)
     .then(res => ui.showPosts(res.data))
     .catch(err => console.log(err));
 }
@@ -44,7 +44,7 @@ function deletePost(e) {
   const a = e.target.parentElement;
 
   if (a.classList.contains('delete') && ui.state !== 'edit') {
-    axios.delete(`${postUrl}/${a.dataset.id}`)
+    axios.delete(`${postUrl}/${a.dataset.id}.json`)
       .then(() => {
         a.parentElement.parentElement.remove();
         ui.showAlert('Post removal successful', 'alert alert-success');
@@ -72,7 +72,7 @@ function submitPost(e) {
   };
 
   if (!id) {
-    return axios.post(postUrl, data)
+    return axios.post(`${postUrl}.json`, data)
       .then(() => {
         getPosts();
         ui.showAlert('Post added', 'alert alert-success');
@@ -81,7 +81,7 @@ function submitPost(e) {
       .catch(err => console.log(err));
   }
 
-  return axios.put(`${postUrl}/${id}`, data)
+  return axios.put(`${postUrl}/${id}.json`, data)
     .then(() => {
       getPosts();
       ui.showAlert('Post edited', 'alert alert-success');

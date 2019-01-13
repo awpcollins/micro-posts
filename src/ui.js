@@ -9,17 +9,21 @@ class UI {
   }
 
   showPosts(posts) {
+    if (!posts) {
+      return;
+    }
+
     let output = '';
-    posts.forEach(post => {
+    Object.keys(posts).forEach(key => {
       output += `
 				<div class="card mb3" >
 					<div class="card-body">
-						<h3 class="card-title">${post.title}</h3>
-						<p class="card-text">${post.body}</p>
-            <a href class="edit card-link" data-id="${post.id}">
+						<h3 class="card-title">${posts[key].title}</h3>
+						<p class="card-text">${posts[key].body}</p>
+            <a href class="edit card-link" data-id="${posts[key].id}">
               <i class="fas fa-pencil-alt"></i>
             </a>
-            <a href disable class="delete card-link" data-id="${post.id}">
+            <a href disable class="delete card-link" data-id="${key}">
               <i class="fas fa-ban"></i>
             </a>
 					</div>
